@@ -1,0 +1,35 @@
+ctrl c == salir
+git status == obtener informacion del repositorio
+git diff ==ver exactamente que se a cambiado
+git rm == marcar  borrado de archivos
+git add_ == Adicionar archivos
+git add -A == Adicionar TODOS archivos
+git commit== interfaz de bin// I -> inserccion// :wq -> salir // Z-Z -> salir//
+git reset --soft == deshacer commit // git reset --soft HEAD-1 == ultimo commit
+git commit -m ==  commit linea de titulo
+git clone ==  clonar repositorio
+git remote == servidores remotos ver
+git remote -v == urls de los servidores
+git push origin  master == subir cambios a repositorio
+git pull origin master == descargar cambios
+git log == ver historial	
+git commit -am == todos los cambios se comitean
+git branch == ver ramas
+git branch nombrerama == crear ramas
+git checkout == cambiar ramas
+git log --decorate == mas informacion de los commits
+git checkout -b == crea rama y va  a ella
+git merge == fusionar las ramas
+git branch -d == eliminar ramas con comprobacion
+git branch -D == eliminar ramas definitivamente
+git gc  == borar basura
+
+
+
+
+
+
+
+
+
+
