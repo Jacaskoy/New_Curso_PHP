@@ -46,29 +46,46 @@
 		
 
 					<li class="nav-item">
-						<a class="nav-link" href="registro.php">Registro</a>
+						<a class="nav-link" href="index.php?pagina=registro">Registro</a>
 					</li>
 
 
 
 					<li class="nav-item">
-						<a class="nav-link" href="ingreso.html">Ingreso</a>
+						<a class="nav-link" href="index.php?pagina=ingreso">Ingreso</a>
 					</li>
 
 
 
 					<li class="nav-item">
-						<a class="nav-link active" href="#">Inicio</a>
+						<a class="nav-link active" href="index.php?pagina=inicio">Inicio</a>
 					</li>
 
 			
 
 					<li class="nav-item">
-						<a class="nav-link" href="#">Salir</a>
+						<a class="nav-link" href="index.php?pagina=salir">Salir</a>
 					</li>
 <div class="container-fluid">
 		
 		<div class="container py-5">
+			<?php
+
+			if(isset($_GET["pagina"])){
+
+				if($_GET["pagina"] =="registro" ||
+					$_GET["pagina"] =="ingreso" ||
+					$_GET["pagina"] =="inicio" ||
+					$_GET["pagina"] =="salir" ||
+
+				include "paginas/"$_GET["pagina"]."".php";
+			}
+			else {
+
+				include "paginas/rgistro.php";
+			 
+			}
+			?>
 					          
 			<table class="table">
 				<thead>
