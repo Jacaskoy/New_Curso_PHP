@@ -20,7 +20,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-<head>
 
 </head>
 <body>
@@ -66,65 +65,47 @@
 					<li class="nav-item">
 						<a class="nav-link" href="index.php?pagina=salir">Salir</a>
 					</li>
+				</ul>
+			</div>
+		</div>
+
+
 <div class="container-fluid">
 		
 		<div class="container py-5">
-			<?php
 
-			if(isset($_GET["pagina"])){
+			<?php 
 
-				if($_GET["pagina"] =="registro" ||
-					$_GET["pagina"] =="ingreso" ||
-					$_GET["pagina"] =="inicio" ||
-					$_GET["pagina"] =="salir" ||
+				#ISSET: isset() Determina si una variable está definida y no es NULL
 
-				include "paginas/"$_GET["pagina"]."".php";
-			}
-			else {
+				if(isset($_GET["pagina"])){
 
-				include "paginas/rgistro.php";
-			 
-			}
-			?>
+					if($_GET["pagina"] == "registro" ||
+					   $_GET["pagina"] == "ingreso" ||
+					   $_GET["pagina"] == "inicio" ||
+					   $_GET["pagina"] == "salir"){
+
+						include "paginas/".$_GET["pagina"].".php";
+
+					}else{
+
+						include "paginas/error404.php";
+					}
+
+
+				}else{
+
+					include "paginas/registro.php";
+
+				}
+
+				
+
+			 ?>
 					          
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Firstname</th>
-						<th>Lastname</th>
-						<th>Email</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>John</td>
-						<td>Doe</td>
-						<td>john@example.com</td>
-					</tr>
-					<tr>
-						<td>Mary</td>
-						<td>Moe</td>
-						<td>mary@example.com</td>
-					</tr>
-					<tr>
-						<td>July</td>
-						<td>Dooley</td>
-						<td>july@example.com</td>
-					</tr>
-				</tbody>
-			</table>
 
 		</div>
 
 	</div>
-
-
-
-			</ul>
-
-		</div>
-
-	</div>
-
 </body>
 </html>
