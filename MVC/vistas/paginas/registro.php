@@ -1,3 +1,5 @@
+<h1>Registro</h1>
+
 <form action="/action_page.php">
 	<div class="form-group">
 		<label for="email">Email address:</label>
