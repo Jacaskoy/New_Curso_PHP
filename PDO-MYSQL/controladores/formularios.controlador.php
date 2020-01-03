@@ -2,6 +2,10 @@
 
 class ControladorFormularios{
 
+/*=============================================
+ Registro
+===============================================*/
+
 	static public function ctrRegistro(){
 
 		if (isset($_POST["registroNombre"])){
@@ -16,8 +20,18 @@ class ControladorFormularios{
 			return $respuesta;
 		
 		}
+	}	
+	/*=============================================
+		Seleccionar Registro
+	===============================================*/
+ 
+	static public function ctrSeleccionarRegistros(){
 
-		}	
+		$tabla = "registros";
+		$respuesta = ModeloFormularios::mdlSeleccionarRegistros($tabla);
+		return $respuesta;
+		
+	}
 	
 
 }

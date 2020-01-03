@@ -12,7 +12,7 @@ class ModeloFormularios{
 #bindParam#
 		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
 		$stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
-		$stmt->bindParam(":passwword", $datos["password"], PDO::PARAM_STR);
+		$stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
 
 		if($stmt->execute()){
 
@@ -23,6 +23,20 @@ class ModeloFormularios{
 			print_r(Conexion::conectar()->errorInfo());
 
 		}
+
+		$stmt->close();
+		$stmt = null;
+	}
+	/*=============================================
+		Seleccionar Registro
+	===============================================*/
+
+	static public function mdlSeleccionarRegistros($tabla){
+
+	$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+	$stmt->execute();
+	return $stmt -> fetchAll();
 
 		$stmt->close();
 		$stmt = null;
