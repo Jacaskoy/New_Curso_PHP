@@ -35,7 +35,7 @@ $registro = new ControladorFormularios();
 $registro -> ctrRegistro();
 */
 
-$registro = ctrIngreso();
+$ingreso = new ControladorFormularios();
 $ingreso -> ctrIngreso();
 ?>
 

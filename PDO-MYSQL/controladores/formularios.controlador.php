@@ -44,10 +44,35 @@ class ControladorFormularios{
 			$item = "email";
 			$valor = $_POST["ingresoEmail"];
 
-			$respuesta = ModeloFormularios::mdlSeleccionarRegistros($tabla $item, $valor);
+			$respuesta = ModeloFormularios::mdlSeleccionarRegistros($tabla,$item, $valor);
+
+			if ($respuesta["email"] == $_POST["ingresoEmail"] && $respuesta["password"] == $_POST["ingresoPassword"]){
+
+				$_SESSION["validarIngreso"] = "ok";
+
+				echo'<script>
+				if (window.history.replaceState) {
+					window.history.replaceState( null,null, window.location.href)
+				}
+				window.location = "index.php?pagina=inicio";
+				</script>';
+
+			}else{	
+
+				echo'<script>
+				if (window.history.replaceState) {
+					window.history.replaceState( null,null, window.location.href)
+				}
+
+				</script>';
+
+				echo '<div class="alert alert-danger">Error al ingresar al sistema, el email o la contraseña no coiciden</div>';
+			}
 
 
 
 	}
+
+}
 
 }
