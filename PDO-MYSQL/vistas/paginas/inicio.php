@@ -17,8 +17,11 @@ if(!isset($_SESSION["validarIngreso"])){
 	
 }
 
-$usuarios = ControladorFormularios::ctrSeleccionarRegistros();
- ?>
+$usuarios = ControladorFormularios::ctrSeleccionarRegistros(null, null);
+
+
+?>
+
 
 <table class="table table-striped">
 	<thead>
@@ -41,7 +44,7 @@ $usuarios = ControladorFormularios::ctrSeleccionarRegistros();
 			<td><?php echo $value["fecha"]; ?></td>
 			<td>
 			<div class="btn-group">
-				<button class="btn btn-warning"><i class="fas fa-pencil-alt"></i></button>
+				<a href="index.php?pagina=editar&id=<?php echo $value["id"]; ?>" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
 
 				<button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
 				
