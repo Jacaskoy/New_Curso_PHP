@@ -57,14 +57,40 @@ class ModeloFormularios{
 		Actualizar Registro
 	===============================================*/
 
-		static public function mdlActualizarRegistro($tabla, $datos){
+		static public function mdlActualizarRegistro($tabla, $valor){
 
 		$stmt = Conexion::conectar()->prepare(" UPDATE $tabla SET nombre=:nombre, email=:email, password=:password WHERE (id=:id)");
 #bindParam#
-		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-		$stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
-		$stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
-		$stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
+	
+		$stmt->bindParam(":id", $valor["id"], PDO::PARAM_INT);
+
+		if($stmt->execute()){
+
+			return "ok";
+
+		}else{
+
+			print_r(Conexion::conectar()->errorInfo());
+
+		}
+
+		$stmt->close();
+		$stmt = null;
+	}
+
+
+	/*=============================================
+		Eliminar Registro
+	===============================================*/
+
+
+
+		static public function mdlEliminarRegistro($tabla, $valor){
+
+		$stmt = Conexion::conectar()->prepare(" DELETE FROM $tabla WHERE (id=:id)");
+#bindParam#
+		
+		$stmt->bindParam(":id", $valor, PDO::PARAM_INT);
 
 		if($stmt->execute()){
 
