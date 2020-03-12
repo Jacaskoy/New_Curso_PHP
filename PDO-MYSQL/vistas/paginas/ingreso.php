@@ -9,7 +9,7 @@
 		<div class="input-group">
 
 		<div class="input-group-prepend">
-
+			
 		<span class="input-group-text"><i class="fas fa-envelope"></i></span>
 	</div>
 		<input type="email" class="form-control" id="email" name="ingresoEmail">
@@ -30,10 +30,6 @@
 	</div>
 </div>
 <?php
-/*
-$registro = new ControladorFormularios();
-$registro -> ctrRegistro();
-*/
 
 $ingreso = new ControladorFormularios();
 $ingreso -> ctrIngreso();
