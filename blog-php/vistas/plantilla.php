@@ -1,12 +1,107 @@
+<?php
+
+$blog = ControladorBlog::ctrMostrarBlog();
+$categorias = ControladorBlog::ctrMostrarCategorias();
+$articulos = ControladorBlog::ctrMostrarConInnerJoin(0, 5, null, null);
+$totalArticulos = ControladorBlog::ctrMostrarTotalArticulos();
+$totalPaginas = ceil(count($totalArticulos)/5);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	
 	<meta charset="UTF-8">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<title>Juanito Travel</title>
+	<?php
+	
+	$validarRuta ="";
+	
+	if (isset($_GET["pagina"])){
+
+		foreach ($categorias as $key => $value) {
+
+			if($_GET["pagina"] == $value["ruta_categoria"]) {
+
+			$validarRuta = "categorias";
+
+			break;
+			
+		}
+	}
+
+		if($validarRuta == "categorias"){
+
+			echo ' <title>'.$blog["titulo"].' | '.$value["descripcion_categoria"].'</title>
+			<meta name="title" content="'.$value["titulo_categoria"].'>">
+			<meta name="description" content="'.$value["descripcion_categoria"].'">';
+
+			$palabras_claves= json_decode($value["p_claves_categoria"], true);
+					
+			$p_claves = "";
+
+			foreach ($palabras_claves as $key => $value) {
+				
+			$p_claves .= $value.", ";
+
+		}
+
+			$p_claves = substr($p_claves, 0, -2);
+
+			echo '<meta name="keywords" content="'.$p_claves.'">';
+
+			
+		}else{
+
+			echo ' <title>'.$blog["titulo"].'</title>
+
+			<meta name="title" content="'.$blog["titulo"].'>">
+			<meta name="description" content="'.$blog["descripcion"].'">';
+
+			$palabras_claves= json_decode($blog["palabras_claves"], true);
+			
+			$p_claves = "";
+
+			foreach ($palabras_claves as $key => $value) {
+				
+			$p_claves .= $value.", ";
+
+		}
+
+			$p_claves = substr($p_claves, 0, -2);
+
+			echo '<meta name="keywords" content="'.$p_claves.'">';
+			
+
+	}
+
+			}else{	
+
+				echo ' <title>'.$blog["titulo"].'</title>
+
+				<meta name="title" content="'.$blog["titulo"].'>">
+				<meta name="description" content="'.$blog["descripcion"].'">';
+
+				$palabras_claves= json_decode($blog["palabras_claves"], true);
+				
+				$p_claves = "";
+
+				foreach ($palabras_claves as $key => $value) {
+					
+				$p_claves .= $value.", ";
+			
+			}
+
+				$p_claves = substr($p_claves, 0, -2);
+
+				echo '<meta name="keywords" content="'.$p_claves.'">';
+				
+			}
+			
+			
+			?>	
+
 
 	<link rel="icon" href="vistas/img/icono.jpg">
 
@@ -60,9 +155,9 @@
 
 <?php
 
-<!--=====================================
+/*-=====================================
 MODULOS FIJOS SUPERIORES
-======================================-->
+======================================*/
 
 include "paginas/modulos/cabecera.php";
 include "paginas/modulos/redes-sociales-movil.php";	
@@ -70,20 +165,65 @@ include "paginas/modulos/buscador-movil.php";
 include "paginas/modulos/menu.php";	
 
 
-<!--=====================================
+/*--=====================================
 NAVEGAR ENTRE PAGNAS
-======================================-->
+======================================*/
 
-include "paginas/inicio.php";
+$validarRuta = "";
 
-<!--=====================================
+if (isset($_GET["pagina"])){
+
+	if(is_numeric($_GET["pagina"])){
+
+		$desde = ($_GET["pagina"]-1)* 5;
+		
+		$cantidad = 5;
+
+		$articulos = ControladorBlog::ctrMostrarConInnerJoin($desde, $cantidad);
+
+	}else{
+
+		foreach ($categorias as $key => $value) {
+
+			if($_GET["pagina"] == $value["ruta_categoria"]) {
+	
+				$validarRuta = "categorias";
+	
+			break;
+		}
+	}
+}
+
+/*--=====================================
+ VALIDAR RUTAS
+======================================*/
+
+if ($validarRuta == "categorias") {
+
+	include "paginas/categorias.php";
+
+}else if(is_numeric($_GET["pagina"]) && $_GET["pagina"] <= $totalPaginas){
+	
+	include "paginas/inicio.php";
+		
+}else{
+
+	include "paginas/404.php";
+}
+
+}else {
+
+	include "paginas/inicio.php";
+}
+/*--=====================================
 MODULOS FIJOS INFERIORES
-======================================-->
+======================================*/
+
 include "paginas/modulos/footer.php";
 
-
 ?>
+<input type="hidden" id="rutaActual" value="<?php echo $blog["dominio"];?>">
 <script src="vistas/js/script.js"></script>
-hola soy la plantilla
+
 </body>
-</html>teg
+</html>
