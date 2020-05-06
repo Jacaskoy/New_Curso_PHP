@@ -5,12 +5,27 @@
 Seleccionar los articullos de la categoria especifica 
 ======================================-*/
 
-if (isset($_GET["pagina"])){
+if (isset($rutas[0])){
 
-	$articulos = ControladorBlog::ctrMostrarConInnerJoin(0, 5, "ruta_categoria", $_GET["pagina"]);
+	$articulos = ControladorBlog::ctrMostrarConInnerJoin(0, 5, "ruta_categoria", $rutas[0]);
+
+	
 
 }
 
+/*--=====================================
+Revisar si viene paginación de categorias
+======================================-*/
+
+if(isset($rutas[1]) && is_numeric($rutas[1])){
+
+	$desde = ($rutas[1]-1)* 5;
+		
+	$cantidad = 5;
+
+	$articulos = ControladorBlog::ctrMostrarConInnerJoin($desde, $cantidad, "ruta_categoria", $rutas[0]);
+
+}
 
 ?>
 
@@ -49,7 +64,7 @@ CONTENIDO CATEGORIA
 
 					<a href="<?php $value["ruta_articulo"];?>"><h5 class="d-block d-lg-none py-3"><?php $value["titulo_articulo"]; ?></h5></a>
 		
-					<a href="<?php $value["ruta_articulo"];?>"><img src="<?php echo $value["portada_articulo"];?>" alt="<?php $value["titulo_articulo"];?>" class="img-fluid" width="100%"></a>
+					<a href="<?php $value["ruta_articulo"];?>"><img src="<?php echo $blog["dominio"];?><?php echo $value["portada_articulo"];?>" alt="<?php $value["titulo_articulo"];?>" class="img-fluid" width="100%"></a>
 
 				</div>
 
@@ -127,7 +142,7 @@ CONTENIDO CATEGORIA
 							
 							<a href="articulos.html">
 
-								<img src="vistas/img/articulo01.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
+								<img src="<?php echo $blog["dominio"];?>vistas/img/articulo01.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
 
 							</a>
 
@@ -151,7 +166,7 @@ CONTENIDO CATEGORIA
 							
 							<a href="articulos.html">
 
-								<img src="vistas/img/articulo02.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
+								<img src="<?php echo $blog["dominio"];?>vistas/img/articulo02.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
 
 							</a>
 
@@ -175,7 +190,7 @@ CONTENIDO CATEGORIA
 							
 							<a href="articulos.html">
 
-								<img src="vistas/img/articulo03.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
+								<img src="<?php echo $blog["dominio"];?>vistas/img/articulo03.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
 
 							</a>
 
@@ -200,19 +215,19 @@ CONTENIDO CATEGORIA
 
 				<div class="mb-4">
 					
-					<img src="vistas/img/ad03.png" class="img-fluid">
+					<img src="<?php echo $blog["dominio"];?>vistas/img/ad03.png" class="img-fluid">
 
 				</div>
 
 				<div class="my-4">
 					
-					<img src="vistas/img/ad02.jpg" class="img-fluid">
+					<img src="<?php echo $blog["dominio"];?>vistas/img/ad02.jpg" class="img-fluid">
 
 				</div>	
 
 				<div class="my-4">
 					
-					<img src="vistas/img/ad05.png" class="img-fluid">
+					<img src="<?php echo $blog["dominio"];?>vistas/img/ad05.png" class="img-fluid">
 
 				</div>	
 				
