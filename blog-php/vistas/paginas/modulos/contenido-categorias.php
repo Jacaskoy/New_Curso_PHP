@@ -9,6 +9,12 @@ if (isset($rutas[0])){
 
 	$articulos = ControladorBlog::ctrMostrarConInnerJoin(0, 5, "ruta_categoria", $rutas[0]);
 
+	$totalArticulos = ControladorBlog::ctrMostrarTotalArticulos("id_cat", $articulos[0]["id_cat"]);
+
+	$totalPaginas = ceil(count($totalArticulos)/5);
+
+	$articulosDestacados = ControladorBlog::ctrArticulosDestacados("id_cat", $articulos[0]["id_cat"]);
+
 	
 
 }
@@ -17,7 +23,23 @@ if (isset($rutas[0])){
 Revisar si viene paginación de categorias
 ======================================-*/
 
-if(isset($rutas[1]) && is_numeric($rutas[1])){
+if(isset($rutas[1])){
+
+if(is_numeric($rutas[1])){
+
+	if($rutas[1] > $totalPaginas){
+
+		echo'<script>
+
+		window.location = "'.$blog["dominio"].'error 404";
+		
+		</script>';
+
+		return;
+
+	}
+
+	$paginaActual = $rutas[1];
 
 	$desde = ($rutas[1]-1)* 5;
 		
@@ -25,6 +47,19 @@ if(isset($rutas[1]) && is_numeric($rutas[1])){
 
 	$articulos = ControladorBlog::ctrMostrarConInnerJoin($desde, $cantidad, "ruta_categoria", $rutas[0]);
 
+}else{
+
+	echo'<script>
+
+		window.location = "'.$blog["dominio"].'error 404";
+		
+		</script>';
+
+}
+
+
+}else{
+	$paginaActual = 1;
 }
 
 ?>
@@ -41,9 +76,9 @@ CONTENIDO CATEGORIA
 
 		<ul class="breadcrumb bg-white p-0 mb-2 mb-md-4">
 
-			<li class="breadcrumb-item inicio"><a href="index.html">Inicio</a></li>
+			<li class="breadcrumb-item inicio"><a href="<?php echo $blog["dominio"];?>">Inicio</a></li>
 
-			<li class="breadcrumb-item active">Mi viaje por Suramérica</li>
+			<li class="breadcrumb-item active"><?php echo $articulos[0]["descripcion_categoria"];?></li>
 
 		</ul>
 		
@@ -62,19 +97,19 @@ CONTENIDO CATEGORIA
 				
 				<div class="col-12 col-lg-5">
 
-					<a href="<?php $value["ruta_articulo"];?>"><h5 class="d-block d-lg-none py-3"><?php $value["titulo_articulo"]; ?></h5></a>
+					<a href="<?php echo $blog["dominio"].$value["ruta_categoria"]."/".$value["ruta_articulo"];?>"><h5 class="d-block d-lg-none py-3"><?php $value["titulo_articulo"]; ?></h5></a>
 		
-					<a href="<?php $value["ruta_articulo"];?>"><img src="<?php echo $blog["dominio"];?><?php echo $value["portada_articulo"];?>" alt="<?php $value["titulo_articulo"];?>" class="img-fluid" width="100%"></a>
+					<a href="<?php echo $blog["dominio"].$value["ruta_categoria"]."/".$value["ruta_articulo"];?>"><img src="<?php echo $blog["dominio"];?><?php echo $value["portada_articulo"];?>" alt="<?php $value["titulo_articulo"];?>" class="img-fluid" width="100%"></a>
 
 				</div>
 
 				<div class="col-12 col-lg-7 introArticulo">
 					
-					<a href="<?php echo $value["ruta_articulo"]; ?>"><h4 class="d-none d-lg-block"><?php echo $value["titulo_articulo"]; ?></h4></a>
+					<a href="<<?php echo $blog["dominio"].$value["ruta_categoria"]."/".$value["ruta_articulo"];?>"><h4 class="d-none d-lg-block"><?php echo $value["titulo_articulo"]; ?></h4></a>
 					
 					<p class="my-2 my-lg-5"><?php echo $value["descripcion_articulo"]; ?></p>
 
-					<a href="<?php echo $value["ruta_articulo"]; ?>" class="float-right">Leer Más</a>
+					<a href="<?php echo $blog["dominio"].$value["ruta_categoria"]."/".$value["ruta_articulo"];?>" class="float-right">Leer Más</a>
 
 					<div class="fecha"><?php echo $value["fecha_articulo"]; ?></div>
 
@@ -87,9 +122,10 @@ CONTENIDO CATEGORIA
 			<?php endforeach ?>
 			
 
-				<div class="container d-none d-md-block">
+			<div class="container d-none d-md-block">
 					
-					<ul class="pagination justify-content-center"></ul>
+					<ul class="pagination justify-content-center" totalPaginas="<?php echo $totalPaginas; ?>" paginaActual="<?php 
+					echo $paginaActual; ?>" rutaPagina="<?php echo $articulos[0]["ruta_categoria"]; ?>"></ul>
 
 				</div>
 
@@ -105,28 +141,18 @@ CONTENIDO CATEGORIA
 
 					<h4>Etiquetas</h4>
 
+					<?php 
+					
+					$tags = json_decode($articulos[0]["p_claves_categoria"], true);
+					
+					?>
 
-						<a href="#suramerica" class="btn btn-secondary btn-sm m-1">suramerica</a> 				
+					<?php foreach ($tags as $key => $value):?>
+
+						<a href="#<?php echo $value;?>" class="btn btn-secondary btn-sm m-1"><?php echo $value;?></a> 
+
+					<?php endforeach ?>
 					
-						<a href="#colombia" class="btn btn-secondary btn-sm m-1">colombia</a> 					
-					
-						<a href="#peru" class="btn btn-secondary btn-sm m-1">peru</a> 					
-					
-						<a href="#argentina" class="btn btn-secondary btn-sm m-1">argentina</a> 					
-					
-						<a href="#chile" class="btn btn-secondary btn-sm m-1">chile</a> 					
-					
-						<a href="#brasil" class="btn btn-secondary btn-sm m-1">brasil</a> 					
-					
-						<a href="#ecuador" class="btn btn-secondary btn-sm m-1">ecuador</a> 						
-					
-						<a href="#venezuela" class="btn btn-secondary btn-sm m-1">venezuela</a> 
-											
-						<a href="#paraguay" class="btn btn-secondary btn-sm m-1">paraguay</a> 						
-					
-						<a href="#uruguay" class="btn btn-secondary btn-sm m-1">uruguay</a> 						
-					
-						<a href="#bolivia" class="btn btn-secondary btn-sm m-1">bolivia</a> 					
 										
 				</div>	
 
@@ -136,23 +162,35 @@ CONTENIDO CATEGORIA
 					
 					<h4>Artículos Destacados</h4>
 
-					<div class="d-flex my-3">
+					<?php foreach ($articulosDestacados as $key => $value):
+
+					
+					$categoria = ControladorBlog::ctrMostrarCategorias("id_categoria", $value["id_cat"]);	
+						
+
+						?>
+
+
+						<div class="d-flex my-3">
 						
 						<div class="w-100 w-xl-50 pr-3 pt-2">
 							
-							<a href="articulos.html">
+							<a href="<?php echo $blog["dominio"].$categoria[0]["ruta_categoria"].
+							"/".$value["ruta_articulo"];?>">
 
-								<img src="<?php echo $blog["dominio"];?>vistas/img/articulo01.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
+								<img src="<?php echo $blog["dominio"].$value["portada_articulo"];?>"
+								alt="<?php echo $blog["dominio"].$value["titulo_articulo"];?>" class="img-fluid">
 
 							</a>
 
 						</div>
 
 						<div>
+   
+							<a href="<?php echo $blog["dominio"].$categoria[0]["ruta_categoria"].
+							"/".$value["ruta_articulo"];?>" class="text-secondary">
 
-							<a href="articulos.html" class="text-secondary">
-
-								<p class="small">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+								<p class="small"><?php echo substr($value["descripcion_articulo"], 0, -150)."...";?></p>
 
 							</a>
 
@@ -160,53 +198,9 @@ CONTENIDO CATEGORIA
 
 					</div>
 
-					<div class="d-flex my-3">
-						
-						<div class="w-100 w-xl-50 pr-3 pt-2">
-							
-							<a href="articulos.html">
 
-								<img src="<?php echo $blog["dominio"];?>vistas/img/articulo02.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
 
-							</a>
-
-						</div>
-
-						<div>
-
-							<a href="articulos.html" class="text-secondary">
-
-								<p class="small">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-							</a>
-
-						</div>
-
-					</div>
-
-					<div class="d-flex my-3">
-						
-						<div class="w-100 w-xl-50 pr-3 pt-2">
-							
-							<a href="articulos.html">
-
-								<img src="<?php echo $blog["dominio"];?>vistas/img/articulo03.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
-
-							</a>
-
-						</div>
-
-						<div>
-
-							<a href="articulos.html" class="text-secondary">
-
-								<p class="small">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-							</a>
-
-						</div>
-
-					</div>
+					<?php endforeach?>
 
 
 				</div>

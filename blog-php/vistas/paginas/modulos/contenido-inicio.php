@@ -10,6 +10,8 @@ if(isset($rutas[0]) && is_numeric($rutas[0])){
 
 }
 
+$articulosDestacados = ControladorBlog::ctrArticulosDestacados(null, null);
+
 ?>
 
 <!--=====================================
@@ -28,25 +30,30 @@ CONTENIDO INICIO
 
 			<?php foreach ($articulos as $key => $value): ?>
 			
-				<!-- ARTÍCULO 01 -->
+				<!-- ARTÍCULOS -->
 
 				<div class="row">
 					
 					<div class="col-12 col-lg-5">
 
-						<a href="<?php $value["ruta_articulo"];?>"><h5 class="d-block d-lg-none py-3"><?php $value["titulo_articulo"]; ?></h5></a>
+						<a href="<?php $blog["dominio"].$value["ruta_categoria"]."/".$value["ruta_articulo"];?>"><h5
+						 class="d-block d-lg-none py-3"><?php $value["titulo_articulo"]; ?></h5></a>
 			
-						<a href="<?php $value["ruta_articulo"];?>"><img src="<?php echo $blog["dominio"];?><?php echo $value["portada_articulo"];?>" alt="<?php $value["titulo_articulo"];?>" class="img-fluid" width="100%"></a>
+						<a href="<?php $blog["dominio"].$value["ruta_categoria"]."/".$value["ruta_articulo"];?>"><img
+						 src="<?php echo $blog["dominio"];?><?php echo $value["portada_articulo"];?>" alt="<?php 
+						 $value["titulo_articulo"];?>" class="img-fluid" width="100%"></a>
 
 					</div>
 
 					<div class="col-12 col-lg-7 introArticulo">
 						
-						<a href="<?php echo $value["ruta_articulo"]; ?>"><h4 class="d-none d-lg-block"><?php echo $value["titulo_articulo"]; ?></h4></a>
+						<a href="<?php echo $blog["dominio"].$value["ruta_categoria"]."/".$value["ruta_articulo"];?>"><h4
+						 class="d-none d-lg-block"><?php echo $value["titulo_articulo"]; ?></h4></a>
 						
 						<p class="my-2 my-lg-5"><?php echo $value["descripcion_articulo"]; ?></p>
 
-						<a href="<?php echo $value["ruta_articulo"]; ?>" class="float-right">Leer Más</a>
+						<a href="<?php echo $blog["dominio"].$value["ruta_categoria"]."/".$value["ruta_articulo"]; ?>" 
+						class="float-right">Leer Más</a>
 
 						<div class="fecha"><?php echo $value["fecha_articulo"]; ?></div>
 
@@ -61,7 +68,7 @@ CONTENIDO INICIO
 				<div class="container d-none d-md-block">
 					
 					<ul class="pagination justify-content-center" totalPaginas="<?php echo $totalPaginas; ?>" paginaActual="<?php 
-					echo $paginaActual; ?>"></ul>
+					echo $paginaActual; ?>" rutaPagina ></ul>
 
 				</div>
 
@@ -84,71 +91,36 @@ CONTENIDO INICIO
 					
 					<h4>Artículos Destacados</h4>
 
-					<div class="d-flex my-3">
+
+					<?php foreach ($articulosDestacados as $key => $value):
+
+					
+					$categoria = ControladorBlog::ctrMostrarCategorias("id_categoria", $value["id_cat"]);	
+						
+
+						?>
+
+
+						<div class="d-flex my-3">
 						
 						<div class="w-100 w-xl-50 pr-3 pt-2">
 							
-							<a href="articulos.html">
+							<a href="<?php echo $blog["dominio"].$categoria[0]["ruta_categoria"].
+							"/".$value["ruta_articulo"];?>">
 
-								<img src="<?php echo $blog["dominio"];?>vistas/img/articulo10.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
+								<img src="<?php echo $blog["dominio"].$value["portada_articulo"];?>"
+								alt="<?php echo $blog["dominio"].$value["titulo_articulo"];?>" class="img-fluid">
 
 							</a>
 
 						</div>
 
 						<div>
+   
+							<a href="<?php echo $blog["dominio"].$categoria[0]["ruta_categoria"].
+							"/".$value["ruta_articulo"];?>" class="text-secondary">
 
-							<a href="articulos.html" class="text-secondary">
-
-								<p class="small">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-							</a>
-
-						</div>
-
-					</div>
-
-					<div class="d-flex my-3">
-						
-						<div class="w-100 w-xl-50 pr-3 pt-2">
-							
-							<a href="articulos.html">
-
-								<img src="<?php echo $blog["dominio"];?>vistas/img/articulo09.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
-
-							</a>
-
-						</div>
-
-						<div>
-
-							<a href="articulos.html" class="text-secondary">
-
-								<p class="small">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-							</a>
-
-						</div>
-
-					</div>
-
-					<div class="d-flex my-3">
-						
-						<div class="w-100 w-xl-50 pr-3 pt-2">
-							
-							<a href="articulos.html">
-
-								<img src="<?php echo $blog["dominio"];?>vistas/img/articulo08.png" alt="Lorem ipsum dolor sit amet" class="img-fluid">
-
-							</a>
-
-						</div>
-
-						<div>
-
-							<a href="articulos.html" class="text-secondary">
-
-								<p class="small">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+								<p class="small"><?php echo substr($value["descripcion_articulo"], 0, -150)."...";?></p>
 
 							</a>
 
@@ -157,6 +129,9 @@ CONTENIDO INICIO
 					</div>
 
 
+
+					<?php endforeach?>
+									
 				</div>
 
 				<!-- PUBLICIDAD -->

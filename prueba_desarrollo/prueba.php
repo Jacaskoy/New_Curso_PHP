@@ -7,17 +7,10 @@
  
     <?php
  
-    echo "¡Hola mundo!";
+ $x = 3 + "15%" + "$25";
 
-    $a = array(1, 2, 3);
-    foreach($a as $x) {
-     $x *= 2;
-}
-echo $a[0] * $a[1] * $a[2];
-    
+    var_dump($x);
      ?>
-
-     
  
   </body> 
   </html>

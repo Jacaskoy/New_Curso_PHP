@@ -96,6 +96,10 @@ PAGINACIÓN
 var totalPaginas = Number($(".pagination").attr("totalPaginas"));
 var paginaActual = Number($(".pagination").attr("paginaActual"));
 var rutaActual = $("#rutaActual").val();
+var rutaPagina = $(".pagination").attr("rutaPagina");
+
+if($(".pagination").length != 0){
+	
 $(".pagination").twbsPagination({
 	totalPages: totalPaginas,	
 	startPage: paginaActual,
@@ -107,9 +111,18 @@ $(".pagination").twbsPagination({
 
 }).on("page", function(evt, page){
 
-	window.location = rutaActual+page;
+	if(rutaPagina != ""){
+
+		window.location = rutaActual+rutaPagina+"/"+page;
+		
+	}else{
+
+		window.location = rutaActual+page;
+
+	}
 	
 })
+}
 
 
 /*=============================================
@@ -143,4 +156,83 @@ $(".deslizadorArticulos").jdSlider({
 
 })
 
+/*=============================================
+DESLIZADOR DE ARTÍCULOS
+=============================================*/
 
+$('.social-share').shapeShare();
+
+/*=============================================
+OPINIONES VACIAS
+=============================================*/
+
+if($(".opiniones").html()){
+	
+
+if(document.querySelector(".opiniones").childNodes.length == 1){
+
+
+	$(".opiniones").html(`
+
+
+	<p class="pl-3 text-secondary">¡Este artículo no tiene opiniones!</p>
+
+	`)
+	}
+
+}
+/*=============================================
+SUBIR FOTO TEMPORAL DE OPINION
+=============================================*/
+
+$("#fotoOpinion").change(function(){
+
+	$(".alert").remove();
+
+var imagen = this.files[0];
+
+/*=============================================
+VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
+=============================================*/
+
+if(imagen["type"] != "image/jpeg" && imagen["type"] != "image/png"){
+
+	$("#fotoOpinion").val("");
+
+	$("#fotoOpinion").after(`
+
+	<div class="alert alert-danger">!la imagen debe estar en formato JPG o PNG!</div>
+
+	`);
+	
+	return;
+
+}else if (imagen["size"] > 2000000){
+
+	$("#fotoOpinion").val("");
+
+	$("#fotoOpinion").after(`
+
+	<div class="alert alert-danger">!la imagen no debe pesar más de 2MB!</div>
+
+	`);
+	
+	return;
+
+}else{
+
+	var datosImagen = new FileReader;
+
+	datosImagen.readAsDataURL(imagen);
+
+	$(datosImagen).on("load", function(event){
+
+		var rutaImagen = event.target.result;
+
+		$(".prevFotoOpinion").attr("src", rutaImagen);
+
+	})
+
+}
+	
+})
