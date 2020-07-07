@@ -62,6 +62,8 @@ if(is_numeric($rutas[1])){
 	$paginaActual = 1;
 }
 
+$anuncios = ControladorBlog::ctrTraerAnuncios("categorias");
+
 ?>
 
 <!--=====================================
@@ -149,7 +151,8 @@ CONTENIDO CATEGORIA
 
 					<?php foreach ($tags as $key => $value):?>
 
-						<a href="#<?php echo $value;?>" class="btn btn-secondary btn-sm m-1"><?php echo $value;?></a> 
+						<a href="<?php echo $blog["dominio"].preg_replace('/[0-9ñÑáéíóúÁÉÍÓÚ ]/', "_", $value);?>"
+						 class="btn btn-secondary btn-sm m-1"><?php echo $value;?></a> 
 
 					<?php endforeach ?>
 					
@@ -207,23 +210,14 @@ CONTENIDO CATEGORIA
 
 				<!-- PUBLICIDAD -->
 
-				<div class="mb-4">
-					
-					<img src="<?php echo $blog["dominio"];?>vistas/img/ad03.png" class="img-fluid">
+				<?php foreach ($anuncios as $key => $value): ?>
 
-				</div>
+				<?php echo $value["codigo_anuncio"];?>
 
-				<div class="my-4">
-					
-					<img src="<?php echo $blog["dominio"];?>vistas/img/ad02.jpg" class="img-fluid">
 
-				</div>	
+				<?php endforeach ?>
 
-				<div class="my-4">
-					
-					<img src="<?php echo $blog["dominio"];?>vistas/img/ad05.png" class="img-fluid">
-
-				</div>	
+				
 				
 			</div>
 

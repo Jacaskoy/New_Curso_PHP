@@ -246,4 +246,83 @@ class ModeloBlog{
         
     }
 
+      /*-=====================================   
+	  Buscador
+    ======================================-*/
+
+    static public function mdlBuscador($tabla1, $tabla2, $desde, $cantidad, $busqueda){
+
+
+        $stmt = Conexion::conectar()->prepare("SELECT $tabla1.*, $tabla2.*, DATE_FORMAT(fecha_articulo,         
+        '%d.%m,%Y') AS fecha_articulo FROM $tabla1 INNER JOIN $tabla2 ON $tabla1.id_categoria = 
+        $tabla2.id_cat WHERE titulo_articulo like '%$busqueda%' OR descripcion_articulo like '%$busqueda%' OR 
+        contenido_articulo like '%$busqueda%' OR ruta_articulo like '%$busqueda%' ORDER BY $tabla2.id_articulo
+        DESC LIMIT $desde, $cantidad");
+
+        $stmt -> execute();
+
+        return $stmt -> fetchAll();
+
+        $stmt -> close();
+
+        $stmt = null;
+
+    }
+
+    /*-=====================================   
+	  Total Buscador
+    ======================================-*/
+
+    static public function mdlTotalBuscador($tabla, $busqueda){
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE ruta_articulo like '%$busqueda%' OR
+        titulo_articulo like '%$busqueda%' OR descripcion_articulo like '%$busqueda%' OR
+        contenido_articulo like '%$busqueda%' OR ruta_articulo like '%$busqueda%'");
+
+        $stmt -> execute();
+
+        return $stmt -> fetchAll();
+
+        $stmt -> close();
+
+        $stmt = null;       
+
+
+    }
+
+    
+      /*-=====================================   
+	  Traer anuncio
+    ======================================-*/
+
+    static public function mdlTraerAnuncios($tabla, $valor){
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE pagina_anuncio = :pagina_anuncio");
+
+        $stmt -> bindParam(":pagina_anuncio", $valor, PDO::PARAM_STR);
+
+        $stmt -> execute();
+
+        return $stmt -> fetchAll();
+
+
+
+    }
+
+     /*-=====================================   
+	  Traer banner
+    ======================================-*/
+
+    static public function mdlTraerBanner($tabla, $valor){
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE pagina_banner = :pagina_banner");
+
+        $stmt -> bindParam(":pagina_banner", $valor, PDO::PARAM_STR);
+
+        $stmt -> execute();
+
+        return $stmt -> fetchAll();
+
+    }
+
 }

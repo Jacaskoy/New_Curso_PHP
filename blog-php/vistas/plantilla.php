@@ -277,9 +277,23 @@ if (isset($_GET["pagina"])){
 				$validarRuta = "categorias";
 	
 			break;
+			
+		}else if($rutas[0] == "sobre-mi"){
+
+
+		$validarRuta = "sobre-mi";
+	
+		break;	
+		
+	}else{
+
+			$validarRuta = "buscador";
+
 		}
+			
+		}	
 	}
-}
+
 
 
 /*--=====================================
@@ -305,12 +319,13 @@ if (isset($rutas[1])){
 				$validarRuta = "articulos";
 	
 			break;
-		}
+	
 	
 	}
 
 		}
 	}
+}
 
 
 /*--=====================================
@@ -321,6 +336,14 @@ if ($validarRuta == "categorias") {
 
 	include "paginas/categorias.php";
 
+}else if($validarRuta  == "buscador"){
+
+	include "paginas/buscador.php";
+
+}else if($validarRuta  == "sobre-mi"){
+
+	include "paginas/sobre-mi.php";
+
 }else if($validarRuta  == "articulos"){
 
 	include "paginas/articulos.php";
@@ -329,7 +352,7 @@ if ($validarRuta == "categorias") {
 	
 	include "paginas/inicio.php";
 		
-}elseif (isset($rutas[1])  && is_numeric($rutas[1])){
+}else if(isset($rutas[1])  && is_numeric($rutas[1])){
 
 	include "paginas/inicio.php";
 
@@ -338,7 +361,7 @@ if ($validarRuta == "categorias") {
 	include "paginas/404.php";
 }
 
-}else {
+}else{
 
 	include "paginas/inicio.php";
 }
